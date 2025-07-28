@@ -1,5 +1,6 @@
 package com.hospitalname.repository.patient;
 import com.hospitalname.model.Patient;
+import com.hospitalname.repository.Repository;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JsonPatientRepository implements PatientRepository {
+public class JsonPatientRepository implements Repository<Patient> {
     private final ObjectMapper mapper = new ObjectMapper();
     private static final String FILE_PATH = "data/patients.json";
     private final File file = new File(FILE_PATH);

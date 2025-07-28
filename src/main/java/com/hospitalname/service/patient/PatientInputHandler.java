@@ -1,8 +1,8 @@
 package com.hospitalname.service.patient;
 
 import com.hospitalname.model.Patient;
+import com.hospitalname.repository.Repository;
 import com.hospitalname.repository.patient.JsonPatientRepository;
-import com.hospitalname.repository.patient.PatientRepository;
 import com.hospitalname.service.util.InputHandler;
 import com.hospitalname.service.util.InputValidator;
 
@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class PatientInputHandler {
     private final Scanner scanner = new Scanner(System.in);
-    private final PatientRepository repo = new JsonPatientRepository();
+    private final Repository<Patient> repo = new JsonPatientRepository();
 
     public void collectPatientInfo() {
         System.out.println("Please provide the patient's information:");

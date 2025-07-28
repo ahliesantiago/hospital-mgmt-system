@@ -1,15 +1,15 @@
 package com.hospitalname.service.patient;
 
 import com.hospitalname.model.Patient;
+import com.hospitalname.repository.Repository;
 import com.hospitalname.repository.patient.JsonPatientRepository;
-import com.hospitalname.repository.patient.PatientRepository;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class PatientQueryHandler {
     private final Scanner scanner = new Scanner(System.in);
-    private final PatientRepository repo = new JsonPatientRepository();
+    private final Repository<Patient> repo = new JsonPatientRepository();
     List<Patient> patients = repo.findAll();
 
     public void listPatients() {
