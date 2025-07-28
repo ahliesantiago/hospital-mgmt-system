@@ -3,11 +3,9 @@ package com.hospitalname.service.patient;
 import com.hospitalname.model.Patient;
 import com.hospitalname.repository.JsonPatientRepository;
 import com.hospitalname.repository.PatientRepository;
+import com.hospitalname.service.util.InputHandler;
 import com.hospitalname.service.util.InputValidator;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -63,60 +61,23 @@ public class PatientInputHandler {
             System.out.print(promptText);
             input = scanner.nextLine();
 
-            if (type.compareToIgnoreCase("text") == 0) isValid = validateStringInput(input);
-            if (type.compareToIgnoreCase("date") == 0) isValid = validateDateInput(input);
-            if (type.compareToIgnoreCase("sex") == 0) isValid = validateSexInput(input);
+            if (type.compareToIgnoreCase("text") == 0) isValid = InputValidator.validateStringInput(input);
+            if (type.compareToIgnoreCase("date") == 0) isValid = InputValidator.validateDateInput(input);
+            if (type.compareToIgnoreCase("sex") == 0) isValid = InputValidator.validateSexInput(input);
         }
 
-        return capitalizeFirstLetter(input);
+        return InputHandler.capitalizeFirstLetter(input);
     }
 
-    /*
-    Validate user input strings, specifically ensuring that the input
-    contains only letters (i.e. no symbols or numbers).
-    */
-    public boolean validateStringInput(String input) {
-        if (input.matches("[a-zA-Z]+")) {
-            return true;
-        } else {
-            System.out.println("Invalid input. Only letters are allowed.");
-            return false;
-        }
-    }
-
-    public boolean validateDateInput(String input) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate date = null;
-        try {
-            date = LocalDate.parse(input, formatter);
-            return true;
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid date.");
-            return false;
-        }
-    }
-
-    public boolean validateSexInput(String input) {
-        List<String> sexes = List.of("male", "female", "other");
-        return sexes.contains(input);
-    }
-
-    public String setPatientId() {
+    public String generatePatientId() {
         List<Patient> patients = repo.findAll();
         int count = patients.size();
 
         return String.format("PT-%05d", count + 1);
     }
 
-    // Capitalize first letter of a string
-    public static String capitalizeFirstLetter(String input) {
-        if (input == null || input.isEmpty()) return null;
-
-        return input.substring(0, 1).toUpperCase() + input.substring(1);
-    }
-
     public void addPatient(String firstName, String surname, String birthdayStr, String sex) {
-        String newPxId = setPatientId();
+        String newPxId = generatePatientId();
 
         Patient newPatient = new Patient(newPxId, surname, firstName, birthdayStr, sex);
         repo.save(newPatient);
