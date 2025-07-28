@@ -1,4 +1,8 @@
 package com.hospitalname.service;
+import com.hospitalname.model.Patient;
+import com.hospitalname.repository.JsonPatientRepository;
+import com.hospitalname.repository.PatientRepository;
+
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -36,11 +40,11 @@ public class PatientService {
         if (sex.compareToIgnoreCase("other") == 0) {
             sexText = "";
         } else {
-            sexText = " " + sex;
+            sexText = sex + " ";
         }
 
-        System.out.println("Please confirm with y/n if the information is correct and to add the patient to the hospital's records: " +
-                sexText + " patient " + firstName + " " + surname + ", born on " + birthday + ".");
+        System.out.println("Please confirm with y/n if the information is correct and to add the patient to the hospital's records: ");
+        System.out.println(firstName + " " + surname + " - " + sexText + "patient born on " + birthday + ".");
 
         String confirmation = scanner.nextLine();
         if (confirmation.compareToIgnoreCase("y") == 0) {
@@ -63,7 +67,7 @@ public class PatientService {
             if (type.compareToIgnoreCase("sex") == 0) isValid = validateSexInput(input);
         }
 
-        return input;
+        return capitalizeFirstLetter(input);
     }
 
     /*
@@ -96,12 +100,33 @@ public class PatientService {
         return sexes.contains(input);
     }
 
-    public void addPatient(String firstName, String surname, String birthdayStr, String sex) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate birthday = LocalDate.parse(birthdayStr, formatter);
+    public String setPatientId() {
+        PatientRepository repo = new JsonPatientRepository();
+        List<Patient> patients = repo.findAll();
+        int count = patients.size();
+
+        return String.format("PT-%05d", count + 1);
     }
 
-    public void setPatientId() {
+    // Capitalize first letter of a string
+    public static String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) return null;
 
+        return input.substring(0, 1).toUpperCase() + input.substring(1);
+    }
+
+    public void addPatient(String firstName, String surname, String birthdayStr, String sex) {
+        PatientRepository repo = new JsonPatientRepository();
+        String newPxId = setPatientId();
+
+        Patient newPatient = new Patient(newPxId, surname, firstName, birthdayStr, sex);
+        repo.save(newPatient);
+        System.out.println("Patient saved: " + newPxId);
+        // System.out.println("Would you like to add another patient?");
+    }
+
+    public void computeAge(String birthdayStr) {
+        // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        // LocalDate birthday = LocalDate.parse(birthdayStr, formatter);
     }
 }
