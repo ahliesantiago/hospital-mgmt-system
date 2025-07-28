@@ -61,7 +61,7 @@ public class Patient {
     @Override
     public String toString() {
         return String.format(
-                "ID: %s%n" +
+                "Patient ID: %s%n" +
                 "Name: %s %s%n" +
                 "Birthday: %s%n" +
                 "Sex: %s%n" +

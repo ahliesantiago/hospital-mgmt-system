@@ -1,4 +1,4 @@
-package com.hospitalname.repository;
+package com.hospitalname.repository.patient;
 import java.util.List;
 import com.hospitalname.model.Patient;
 

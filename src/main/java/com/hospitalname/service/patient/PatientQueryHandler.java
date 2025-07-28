@@ -1,8 +1,8 @@
 package com.hospitalname.service.patient;
 
 import com.hospitalname.model.Patient;
-import com.hospitalname.repository.JsonPatientRepository;
-import com.hospitalname.repository.PatientRepository;
+import com.hospitalname.repository.patient.JsonPatientRepository;
+import com.hospitalname.repository.patient.PatientRepository;
 
 import java.util.List;
 import java.util.Scanner;
