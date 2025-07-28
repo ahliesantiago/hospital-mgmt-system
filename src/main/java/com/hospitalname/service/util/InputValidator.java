@@ -23,7 +23,7 @@ public class InputValidator {
     /* Validate user input strings, specifically ensuring that the input
     contains only letters (i.e. no symbols or numbers). */
     public static boolean validateStringInput(String input) {
-        if (input.matches("[a-zA-Z]+")) {
+        if (input.matches("[a-zA-Z ]+")) {
             return true;
         } else {
             System.out.println("Invalid input. Only letters are allowed.");

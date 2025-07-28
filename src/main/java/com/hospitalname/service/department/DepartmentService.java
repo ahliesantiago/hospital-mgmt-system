@@ -6,6 +6,7 @@ import com.hospitalname.repository.Repository;
 import com.hospitalname.service.util.InputHandler;
 import com.hospitalname.service.util.InputValidator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,8 +15,16 @@ public class DepartmentService {
     private final Repository<Department> repo = new JsonDeptRepository();
     List<Department> departments = repo.findAll();
 
-    public void collectInput() {
-        String deptName = promptForInput("What is the name of the department you'd like to add?");
+    public void collectInput(String[] input) {
+        String deptName = "";
+
+        if (input.length < 3) {
+            deptName = promptForInput("What is the name of the department you'd like to add? ");
+        } else {
+            String[] inputArr = Arrays.copyOfRange(input, 2, input.length);
+            deptName = String.join(" ", inputArr);
+            deptName = InputHandler.capitalizeFirstLetterOfEachWord(deptName);
+        }
 
         boolean confirmation = InputValidator.validateYorN("Please confirm if you would like to create the " + deptName + " Department for this hospital: ");
         if (!confirmation) {
@@ -36,7 +45,7 @@ public class DepartmentService {
             isValid = InputValidator.validateStringInput(input);
         }
 
-        return InputHandler.capitalizeFirstLetter(input);
+        return InputHandler.capitalizeFirstLetterOfEachWord(input);
     }
 
     public void addDepartment(String deptName) {
@@ -50,7 +59,9 @@ public class DepartmentService {
             return;
         }
 
-        collectInput();
+        String[] newRequest = {"add"," department"};
+
+        collectInput(newRequest);
     }
 
     public void listDepartments() {
@@ -78,7 +89,7 @@ public class DepartmentService {
         }
 
         if (input.length < 3) {
-            System.out.print("What is the department ID you would like to review? ");
+            System.out.print("What is the name of the department you would like to review? ");
             deptName = scanner.nextLine();
         } else {
             deptName = input[2];

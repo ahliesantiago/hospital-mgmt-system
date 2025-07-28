@@ -44,11 +44,15 @@ public class MenuHandler {
                 break;
 
             case "add department":
-                department.collectInput();
+                department.collectInput(parts);
                 break;
 
             case "list departments":
                 department.listDepartments();
+                break;
+
+            case "view department":
+                department.getDepartment(parts);
                 break;
 
             case "add patient":
