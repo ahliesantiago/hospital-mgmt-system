@@ -3,6 +3,7 @@ package com.hospitalname.service.patient;
 import com.hospitalname.model.Patient;
 import com.hospitalname.repository.JsonPatientRepository;
 import com.hospitalname.repository.PatientRepository;
+import com.hospitalname.service.util.InputValidator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -44,15 +45,14 @@ public class PatientInputHandler {
             sexText = sex + " ";
         }
 
-        System.out.println("Please confirm with y/n if the information is correct and to add the patient to the hospital's records: ");
-        System.out.println(firstName + " " + surname + " - " + sexText + "patient born on " + birthday + ".");
-
-        String confirmation = scanner.nextLine();
-        if (confirmation.compareToIgnoreCase("y") == 0) {
-            addPatient(firstName, surname, birthday, sex);
-        } else if (confirmation.compareToIgnoreCase("n") == 0) {
+        System.out.println("Recap: " + firstName + " " + surname + " - " + sexText + "patient born on " + birthday + ".");
+        boolean confirmation = InputValidator.validateYorN("Please confirm if the information above is correct to proceed with addition of the patient to the hospital's records: ");
+        if (!confirmation) {
             System.out.println("Aborting...");
+            return;
         }
+
+        addPatient(firstName, surname, birthday, sex);
     }
 
     public String promptForInput(String promptText, String type) {
@@ -121,5 +121,13 @@ public class PatientInputHandler {
         Patient newPatient = new Patient(newPxId, surname, firstName, birthdayStr, sex);
         repo.save(newPatient);
         System.out.println("Patient saved: " + newPxId);
+
+        System.out.println();
+        boolean confirmation = InputValidator.validateYorN("Would you like to add another patient?");
+        if (!confirmation) {
+            return;
+        }
+
+        collectPatientInfo();
     }
 }
