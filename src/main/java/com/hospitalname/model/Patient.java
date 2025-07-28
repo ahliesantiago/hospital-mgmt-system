@@ -57,4 +57,16 @@ public class Patient {
     public void setSex(String sex) {
         this.sex = sex;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ID: %s%n" +
+                "Name: %s %s%n" +
+                "Birthday: %s%n" +
+                "Sex: %s%n" +
+                "===========",
+                id, firstName, surname, birthday, sex
+        );
+    }
 }

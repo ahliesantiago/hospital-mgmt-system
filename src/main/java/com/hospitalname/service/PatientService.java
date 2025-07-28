@@ -11,7 +11,8 @@ import java.time.*;
 
 public class PatientService {
 //    private final PatientRepository repository;
-    Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
+    private final PatientRepository repo = new JsonPatientRepository();
 
     public void collectPatientInfo() {
         System.out.println("Please provide the patient's information:");
@@ -101,7 +102,6 @@ public class PatientService {
     }
 
     public String setPatientId() {
-        PatientRepository repo = new JsonPatientRepository();
         List<Patient> patients = repo.findAll();
         int count = patients.size();
 
@@ -116,13 +116,59 @@ public class PatientService {
     }
 
     public void addPatient(String firstName, String surname, String birthdayStr, String sex) {
-        PatientRepository repo = new JsonPatientRepository();
         String newPxId = setPatientId();
 
         Patient newPatient = new Patient(newPxId, surname, firstName, birthdayStr, sex);
         repo.save(newPatient);
         System.out.println("Patient saved: " + newPxId);
         // System.out.println("Would you like to add another patient?");
+    }
+
+    public void getPatient(String[] input) {
+        List<Patient> patients = repo.findAll();
+        String patientId = "";
+        boolean patientFound = false;
+
+        if (patients.isEmpty()) {
+            System.out.println("No patient records found.");
+            return;
+        }
+
+        if (input.length < 3) {
+            System.out.print("What is the patient ID you would like to review? ");
+            patientId = scanner.nextLine();
+        } else {
+            patientId = input[2];
+        }
+
+        if (!patientId.startsWith("PT")) {
+            String padded = String.format("%1$" + 5 + "s", patientId).replace(' ', '0');
+            patientId = "PT-" + padded;
+        }
+
+        for (Patient patient : patients) {
+            if (patient.getId().compareToIgnoreCase(patientId) == 0) {
+                System.out.println(patient);
+                patientFound = true;
+            }
+        }
+
+        if (!patientFound) {
+            System.out.println("Error: No patient found with ID " + patientId);
+        }
+    }
+
+    public void listPatients() {
+        List<Patient> patients = repo.findAll();
+
+        if (patients.isEmpty()) {
+            System.out.println("No patient records found.");
+            return;
+        }
+
+        for (Patient patient : patients) {
+            System.out.println(patient);
+        }
     }
 
     public void computeAge(String birthdayStr) {

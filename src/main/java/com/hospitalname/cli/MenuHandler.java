@@ -6,16 +6,8 @@ import com.hospitalname.service.PatientService;
 
 public class MenuHandler {
     static final List<String> validMenuOptions = List.of(
-            "overview",
-            "list",
-            "list departments",
             "list patients",
-            "list doctors",
-            "list doctor",
-            "view",
-            "view department",
             "view patient",
-            "view doctor",
             "add patient",
             "help",
             "exit"
@@ -27,10 +19,13 @@ public class MenuHandler {
 
         do {
             System.out.println("What would you like to do today?");
-
             String userMenuRequest = scanner.nextLine();
 
-            if (!validMenuOptions.contains(userMenuRequest)) {
+            String[] parts = userMenuRequest.split("\\s+", 3);
+            String baseCommand = parts.length >= 2
+                    ? parts[0] + " " + parts[1]
+                    : parts[0];
+            if (!validMenuOptions.contains(baseCommand)) {
                 System.out.println("Error: No such command exists (enter 'help' for a list of available commands)");
             }
 
@@ -42,16 +37,26 @@ public class MenuHandler {
         } while (!exited);
     }
 
-    public void handleRequest(String userRequest) {
+    public void handleRequest(String userCommand) {
         HelpPrinter help = new HelpPrinter();
         PatientService pxService = new PatientService();
+        String[] parts = userCommand.split("\\s+", 3);
+        String baseCommand = parts.length >= 2
+                ? parts[0] + " " + parts[1]
+                : parts[0];
 
-        if (userRequest.compareToIgnoreCase("help") == 0) {
-            help.printHelp();
-        }
+        switch (baseCommand) {
+            case "help":
+                help.printHelp();
 
-        if (userRequest.compareToIgnoreCase("add patient") == 0) {
-            pxService.collectPatientInfo();
+            case "add patient":
+                pxService.collectPatientInfo();
+
+            case "list patients":
+                pxService.listPatients();
+
+            case "view patient":
+                pxService.getPatient(parts);
         }
     }
 }
