@@ -2,6 +2,7 @@ package com.hospitalname.cli;
 import java.util.Scanner;
 import com.hospitalname.service.patient.PatientInputHandler;
 import com.hospitalname.service.patient.PatientQueryHandler;
+import com.hospitalname.service.OverallService;
 
 public class MenuHandler {
     public void start() {
@@ -24,6 +25,8 @@ public class MenuHandler {
         HelpPrinter help = new HelpPrinter();
         PatientInputHandler pxInputService = new PatientInputHandler();
         PatientQueryHandler pxQueryService = new PatientQueryHandler();
+        OverallService overview = new OverallService();
+
         String[] parts = userCommand.split("\\s+", 3);
         String baseCommand = parts.length >= 2
                 ? parts[0] + " " + parts[1]
@@ -32,6 +35,10 @@ public class MenuHandler {
         switch (baseCommand) {
             case "help":
                 help.printHelp();
+                break;
+
+            case "overview":
+                overview.getOverallInfo();
                 break;
 
             case "add patient":
@@ -44,6 +51,9 @@ public class MenuHandler {
 
             case "view patient":
                 pxQueryService.getPatient(parts);
+                break;
+
+            case "exit":
                 break;
 
             default:

@@ -10,10 +10,9 @@ import java.util.Scanner;
 public class PatientQueryHandler {
     private final Scanner scanner = new Scanner(System.in);
     private final PatientRepository repo = new JsonPatientRepository();
+    List<Patient> patients = repo.findAll();
 
     public void listPatients() {
-        List<Patient> patients = repo.findAll();
-
         if (patients.isEmpty()) {
             System.out.println("No patient records found.");
             return;
@@ -25,7 +24,6 @@ public class PatientQueryHandler {
     }
 
     public void getPatient(String[] input) {
-        List<Patient> patients = repo.findAll();
         String patientId = "";
         boolean patientFound = false;
 
@@ -56,6 +54,10 @@ public class PatientQueryHandler {
         if (!patientFound) {
             System.out.println("Error: No patient found with ID " + patientId);
         }
+    }
+
+    public int countPatients() {
+        return patients.size();
     }
 
     public void computeAge(String birthdayStr) {
