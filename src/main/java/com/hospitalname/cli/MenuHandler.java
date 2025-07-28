@@ -2,6 +2,7 @@ package com.hospitalname.cli;
 import java.util.Scanner;
 import com.hospitalname.service.patient.PatientInputHandler;
 import com.hospitalname.service.patient.PatientQueryHandler;
+import com.hospitalname.service.department.DepartmentService;
 import com.hospitalname.service.OverallService;
 
 public class MenuHandler {
@@ -26,6 +27,7 @@ public class MenuHandler {
         PatientInputHandler pxInputService = new PatientInputHandler();
         PatientQueryHandler pxQueryService = new PatientQueryHandler();
         OverallService overview = new OverallService();
+        DepartmentService department = new DepartmentService();
 
         String[] parts = userCommand.split("\\s+", 3);
         String baseCommand = parts.length >= 2
@@ -39,6 +41,14 @@ public class MenuHandler {
 
             case "overview":
                 overview.getOverallInfo();
+                break;
+
+            case "add department":
+                department.collectInput();
+                break;
+
+            case "list departments":
+                department.listDepartments();
                 break;
 
             case "add patient":
