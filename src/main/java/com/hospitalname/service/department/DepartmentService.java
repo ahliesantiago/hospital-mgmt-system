@@ -103,7 +103,7 @@ public class DepartmentService {
         }
 
         if (!departmentFound) {
-            System.out.println("Error: No department found with ID " + deptName);
+            System.out.println("Error: No department found with name " + deptName);
         }
     }
 
