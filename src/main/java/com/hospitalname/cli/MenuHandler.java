@@ -1,6 +1,7 @@
 package com.hospitalname.cli;
 import java.util.Scanner;
 import com.hospitalname.service.doctor.DoctorInputHandler;
+import com.hospitalname.service.doctor.DoctorQueryHandler;
 import com.hospitalname.service.patient.PatientInputHandler;
 import com.hospitalname.service.patient.PatientQueryHandler;
 import com.hospitalname.service.department.DepartmentService;
@@ -26,6 +27,7 @@ public class MenuHandler {
     public void handleRequest(String userCommand) {
         HelpPrinter help = new HelpPrinter();
         DoctorInputHandler doctorInputService = new DoctorInputHandler();
+        DoctorQueryHandler drQueryService = new DoctorQueryHandler();
         PatientInputHandler pxInputService = new PatientInputHandler();
         PatientQueryHandler pxQueryService = new PatientQueryHandler();
         OverallService overview = new OverallService();
@@ -61,16 +63,24 @@ public class MenuHandler {
                 doctorInputService.collectInfo();
                 break;
 
+            case "list doctors":
+                drQueryService.listRecords();
+                break;
+
+            case "view doctor":
+                drQueryService.getRecordById(parts, "doctor", "DR");
+                break;
+
             case "add patient":
                 pxInputService.collectPatientInfo();
                 break;
 
             case "list patients":
-                pxQueryService.listPatients();
+                pxQueryService.listRecords();
                 break;
 
             case "view patient":
-                pxQueryService.getPatient(parts);
+                pxQueryService.getRecordById(parts, "patient", "PT");
                 break;
 
             case "exit":
