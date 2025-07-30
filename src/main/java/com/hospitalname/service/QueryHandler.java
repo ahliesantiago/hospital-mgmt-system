@@ -1,5 +1,6 @@
 package com.hospitalname.service;
 
+import com.hospitalname.model.Department;
 import com.hospitalname.repository.Repository;
 
 import java.util.List;
@@ -40,10 +41,7 @@ public class QueryHandler<T> {
             id = input[2];
         }
 
-        if (!id.startsWith(prefix)) {
-            String padded = String.format("%1$" + 5 + "s", id).replace(' ', '0');
-            id = prefix + "-" + padded;
-        }
+        id = padId(id, prefix);
 
         boolean recordFound = false;
         for (T record : records) {
@@ -61,6 +59,44 @@ public class QueryHandler<T> {
 
     protected String getId(T record) {
         return null;
+    }
+
+    protected String getName(T record) {
+        return null;
+    }
+
+    public String padId(String id, String prefix) {
+        if (!id.startsWith(prefix)) {
+            String padded = String.format("%1$" + 5 + "s", id).replace(' ', '0');
+            id = prefix + "-" + padded;
+        }
+
+        return id;
+    }
+
+    public boolean recordExists(String id, String type, String prefix) {
+        id = padId(id, prefix);
+
+        for (T record : records) {
+            String recordId = getId(record);
+            if (recordId != null && recordId.equalsIgnoreCase(id)) {
+                return true;
+            }
+        }
+
+        System.out.println("Error: No " + type + " record found with ID " + id);
+        return false;
+    }
+
+    public String getNameById(String id) {
+        for (T record : records) {
+            String recordId = getId(record);
+            if (recordId != null && recordId.equalsIgnoreCase(id)) {
+                return getName(record);
+            }
+        }
+
+        return "Error";
     }
 
     public int countRecords() {

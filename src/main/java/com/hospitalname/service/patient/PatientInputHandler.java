@@ -37,7 +37,7 @@ public class PatientInputHandler {
         );
 
         String sexText = "";
-        if (sex.compareToIgnoreCase("other") == 0) {
+        if (sex.equalsIgnoreCase("other")) {
             sexText = "";
         } else {
             sexText = sex + " ";

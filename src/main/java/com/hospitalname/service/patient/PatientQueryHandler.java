@@ -14,4 +14,9 @@ public class PatientQueryHandler extends QueryHandler<Patient> {
     protected String getId(Patient patient) {
         return patient.getId();
     }
+
+    @Override
+    protected String getName(Patient patient) {
+        return patient.getFirstName() + " " + patient.getSurname();
+    }
 }
