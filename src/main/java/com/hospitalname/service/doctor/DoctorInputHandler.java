@@ -39,7 +39,7 @@ public class DoctorInputHandler {
         );
 
         String department = promptForInput(
-                "Doctor's department: ",
+                "Doctor's department (enter 'none' if not applicable): ",
                 "deptText"
         );
 
@@ -50,7 +50,14 @@ public class DoctorInputHandler {
             sexText = sex + " ";
         }
 
-        System.out.println("Recap: Dr. " + firstName + " " + surname + " - " + sexText + "doctor, born on " + birthday + ", who is part of the " + department + " Department.");
+        String deptText = "";
+        if (department.equalsIgnoreCase("none")) {
+            deptText = "currently not part of any specific department.";
+        } else {
+            deptText = "part of the " + department + " Department.";
+        }
+
+        System.out.println("Recap: Dr. " + firstName + " " + surname + " - " + sexText + "doctor, born on " + birthday + ", who is " + deptText);
         boolean confirmation = InputValidator.validateYorN("Please confirm if the information above is correct to proceed with addition of the doctor to the hospital's records: ");
         if (!confirmation) {
             System.out.println("Aborting...");
