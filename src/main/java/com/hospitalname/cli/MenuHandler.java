@@ -1,5 +1,6 @@
 package com.hospitalname.cli;
 import java.util.Scanner;
+import com.hospitalname.service.doctor.DoctorInputHandler;
 import com.hospitalname.service.patient.PatientInputHandler;
 import com.hospitalname.service.patient.PatientQueryHandler;
 import com.hospitalname.service.department.DepartmentService;
@@ -24,6 +25,7 @@ public class MenuHandler {
 
     public void handleRequest(String userCommand) {
         HelpPrinter help = new HelpPrinter();
+        DoctorInputHandler doctorInputService = new DoctorInputHandler();
         PatientInputHandler pxInputService = new PatientInputHandler();
         PatientQueryHandler pxQueryService = new PatientQueryHandler();
         OverallService overview = new OverallService();
@@ -53,6 +55,10 @@ public class MenuHandler {
 
             case "view department":
                 department.getDepartment(parts);
+                break;
+
+            case "add doctor":
+                doctorInputService.collectInfo();
                 break;
 
             case "add patient":

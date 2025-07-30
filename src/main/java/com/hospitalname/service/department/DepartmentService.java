@@ -106,4 +106,12 @@ public class DepartmentService {
             System.out.println("Error: No department found with ID " + deptName);
         }
     }
+
+    public boolean checkExistenceByName(String deptQuery) {
+        for (Department department : departments) {
+            if (department.getName().equalsIgnoreCase(deptQuery)) return true;
+        }
+        System.out.println("Department specified not found in the hospital records.");
+        return false;
+    }
 }
