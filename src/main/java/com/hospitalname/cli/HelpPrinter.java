@@ -10,7 +10,7 @@ public class HelpPrinter {
         Map<String, String> commands = new LinkedHashMap<>();
         commands.put("overview", "View a summary of the hospital records");
         commands.put("add <type>", "Add a department, doctor, patient record, or appointment");
-        commands.put("list <type>", "Display a list of your specified hospital data (departments, doctors, patients) and a summary of their information");
+        commands.put("list <type>", "Display a list of your specified hospital data (departments, doctors, patients, appointments) and a summary of their information");
         commands.put("view <type> <id>", "Display complete information of specific hospital data based on your provided ID");
         commands.put("view patient <id>", "Display complete information of a specific patient");
         commands.put("view doctor <id>", "Display complete information of a specific doctor");

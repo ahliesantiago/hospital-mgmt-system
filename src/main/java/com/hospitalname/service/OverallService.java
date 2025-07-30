@@ -1,9 +1,11 @@
 package com.hospitalname.service;
+import com.hospitalname.service.appointment.AppointmentService;
 import com.hospitalname.service.department.DepartmentService;
 import com.hospitalname.service.doctor.DoctorQueryHandler;
 import com.hospitalname.service.patient.PatientQueryHandler;
 
 public class OverallService {
+    AppointmentService appointmentService = new AppointmentService();
     DepartmentService departmentService = new DepartmentService();
     DoctorQueryHandler doctorQuery = new DoctorQueryHandler();
     PatientQueryHandler patientQuery = new PatientQueryHandler();
@@ -12,6 +14,6 @@ public class OverallService {
         System.out.println("Departments: " + departmentService.countDepartments());
         System.out.println("Doctors: " + doctorQuery.countRecords());
         System.out.println("Patients: " + patientQuery.countRecords());
-        System.out.println("Upcoming Appointments: " + 0);
+        System.out.println("Upcoming Appointments: " + appointmentService.countUpcomingAppointments());
     }
 }

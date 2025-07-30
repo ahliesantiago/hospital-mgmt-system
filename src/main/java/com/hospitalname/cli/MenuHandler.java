@@ -5,6 +5,7 @@ import com.hospitalname.service.doctor.DoctorQueryHandler;
 import com.hospitalname.service.patient.PatientInputHandler;
 import com.hospitalname.service.patient.PatientQueryHandler;
 import com.hospitalname.service.department.DepartmentService;
+import com.hospitalname.service.appointment.AppointmentService;
 import com.hospitalname.service.OverallService;
 
 public class MenuHandler {
@@ -31,6 +32,7 @@ public class MenuHandler {
         PatientInputHandler pxInputService = new PatientInputHandler();
         PatientQueryHandler pxQueryService = new PatientQueryHandler();
         OverallService overview = new OverallService();
+        AppointmentService appointment = new AppointmentService();
         DepartmentService department = new DepartmentService();
 
         String[] parts = userCommand.split("\\s+", 3);
@@ -81,6 +83,14 @@ public class MenuHandler {
 
             case "view patient":
                 pxQueryService.getRecordById(parts, "patient", "PT");
+                break;
+
+            case "add appointment":
+                appointment.collectInput();
+                break;
+
+            case "list appointments":
+                appointment.listRecords();
                 break;
 
             case "exit":
